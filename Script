@@ -1,3 +1,7 @@
+function Notify(Message, Time)
+require(game:GetService("ReplicatedStorage").Game.Notification).new({Text = Message, Duration = Time})
+end
+
 LPH_JIT = LPH_JIT or function(...) return ... end 
 LPH_NO_VIRTUALIZE = LPH_NO_VIRTUALIZE or function(...) return ... end
 local Bot = game.Players.localPlayer
@@ -7,6 +11,10 @@ local RobbingLocation = false
 local toggled = true -- TRUE = ON  | FALSE = OFF
 local reset = false
 local exitCar = require(game:GetService("ReplicatedStorage").Game.CharacterUtil)
+local network = getupvalue(require(game.ReplicatedStorage.Module.AlexChassis).SetEvent, 1)
+local punchHash = "jkhe0isj" -- Y
+local hash = 'm5qcu4ya'  -- Y
+local buyHash = 'ib6bmql1' -- Y
 local config = {
     teleport = true,
     wait = true,
@@ -15,7 +23,7 @@ local config = {
     killAura = false,
     killAuraRange = 150,
     CarSpeed = -100,
-    FlySpeed = -125,
+    FlySpeed = -50,
     GroundSpeed = 1,
     MansionToggled = true,
     MuseumToggled = true,
@@ -36,6 +44,11 @@ local config = {
     ToggleKey = RightShift,
     safe = true
 }
+require(game:GetService("ReplicatedStorage").Tag.TagUtils).isPointInTag = newcclosure(function(a, xD)
+if xD == "NoFallDamage" or xD == "NoRagdoll" or xD == "NoParachute" then
+return true
+end
+end)
 local rayDirection = Vector3.new(0, -3000, 0)
 local rayDirection1 = Vector3.new(0, 3000, 0)
 
@@ -122,7 +135,7 @@ move = LPH_JIT(function(pos, object)
                 Bot.Character.HumanoidRootPart.Velocity = Vector3.new(velocity.X * config.FlySpeed, 0.1, velocity.Z * config.FlySpeed)
                 Bot.Character.HumanoidRootPart.CFrame = CFrame.new(Bot.Character.HumanoidRootPart.Position.X, 500, Bot.Character.HumanoidRootPart.Position.Z)
                 wait()
-                moveTime += 0.03
+                moveTime = moveTime + 0.03
                 if moveTime > 90 - (config.CarSpeed * -0.01) then
                     
                     Bot.Character.Humanoid.Health = 0
@@ -146,7 +159,7 @@ move = LPH_JIT(function(pos, object)
                 Car.Engine.Velocity = Vector3.new(velocity.X * config.CarSpeed, 0.1, velocity.Z * config.CarSpeed)
                 Car.Engine.CFrame = CFrame.new(Car.Engine.Position.X, 500, Car.Engine.Position.Z)
                 wait()
-                moveTime += 0.03
+                moveTime = moveTime + 0.03
                 if moveTime > 90 - (config.CarSpeed * -0.01) then
                     
                     Bot.Character.Humanoid.Health = 0
@@ -171,7 +184,7 @@ move = LPH_JIT(function(pos, object)
                 Bot.Character.HumanoidRootPart.Velocity = Vector3.new(velocity.X * config.FlySpeed, 0.1, velocity.Z * config.FlySpeed)
                 Bot.Character.HumanoidRootPart.CFrame = CFrame.new(Bot.Character.HumanoidRootPart.Position.X, 500, Bot.Character.HumanoidRootPart.Position.Z)
                 wait()
-                moveTime += 0.03
+                moveTime = moveTime + 0.03
                 if moveTime > 90 - (config.CarSpeed * -0.01) then
                     
                     Bot.Character.Humanoid.Health = 0
@@ -194,7 +207,7 @@ move = LPH_JIT(function(pos, object)
                 Car.Engine.Velocity = Vector3.new(velocity.X * config.CarSpeed, 0.1, velocity.Z * config.CarSpeed)
                 Car.Engine.CFrame = CFrame.new(Car.Engine.Position.X, 500, Car.Engine.Position.Z)
                 wait()
-                moveTime += 0.03
+                moveTime = moveTime + 0.03
                 if moveTime > 90 - (config.CarSpeed * -0.01) then
                     
                     Bot.Character.Humanoid.Health = 0
@@ -275,7 +288,7 @@ pathMove = LPH_JIT(function(pos)
                 Bot.Character.HumanoidRootPart.CFrame = CFrame.new(Bot.Character.HumanoidRootPart.Position - MoveDist)
                 Bot.Character.HumanoidRootPart.Velocity = Vector3.new(0,1.005,0)
                 wait()
-                moveTime += 0.03
+                moveTime = moveTime + 0.03
                 if moveTime > 30 - (config.GroundSpeed * 1.5) then
                     
                     Bot.Character.Humanoid.Health = 0
@@ -286,7 +299,7 @@ pathMove = LPH_JIT(function(pos)
             end
             if config.safe then
                 wait(0.1)
-                moveTime += 0.1
+                moveTime = moveTime + 0.1
             end
         end
         if not Bot.Character:FindFirstChild("HumanoidRootPart") then return end
@@ -302,7 +315,7 @@ pathMove = LPH_JIT(function(pos)
                 Car.Engine.CFrame = CFrame.new(Car.Engine.Position - MoveDist)
                 Car.Engine.Velocity = Vector3.new(0,1.005,0)
                 wait()
-                moveTime += 0.03
+                moveTime = moveTime + 0.03
                 if moveTime > 30 - (config.GroundSpeed * 1.5) then
                     
                     Bot.Character.Humanoid.Health = 0
@@ -313,7 +326,7 @@ pathMove = LPH_JIT(function(pos)
             end
             if config.safe then
                 wait(0.1)
-                moveTime += 0.1
+                moveTime = moveTime + 0.1
             end
         end
         if not Bot.Character:FindFirstChild("HumanoidRootPart") then return end
@@ -717,3 +730,9 @@ function BotMove(location, LocationName, teleporting, noLocation)
         wait(0.5)
     end
 end
+
+require(game:GetService("ReplicatedStorage").Tag.TagUtils).isPointInTag = newcclosure(function(a, xD)
+if xD == "NoFallDamage" or xD == "NoRagdoll" or xD == "NoParachute" then
+return true
+end
+end)

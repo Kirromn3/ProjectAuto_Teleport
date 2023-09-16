@@ -63,7 +63,7 @@ function GetPos(location)
     local ClosestDistance = nil
     local MinDistance = math.huge
     for k, v in pairs(game:GetService("Workspace").Vehicles:GetChildren()) do
-        if v.Name == "Heli" and not v:GetAttribute('Locked') == true then
+        if v.Name == "Heli" and v:GetAttribute('Locked') == false then
             if v.Seat.PlayerName.Value == "" then
 
                 local rayOrigin = v.Seat.Position + Vector3.new(0, 15, 0)
